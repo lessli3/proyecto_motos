@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motos App</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>    
+    <script src="{% static 'app.js' %}" defer></script>
+</head>
+<body>
+    <nav>
+        <div class="container py-3">
+            <div class="row align-items-center">
+                <!-- Título y nombre de usuario en una sola fila -->
+                <div class="col-lg-6 d-flex align-items-center">
+                    <h5 class="fw-bold ms-3 mb-0" id="usernameDisplay">  </h5> <!-- Nombre de usuario -->
+                    <h5 class="fw-semibold mb-0 ms-2">CRUD - Lista de motocicletas</h5>
+                </div>
+                <!-- Botones alineados a la derecha -->
+                <div class="col-lg-6 text-end">
+                    <button onclick="openModalAdd()" class="btn btn-outline-light me-2">Agregar Moto</button>
+                    <button class="btn btn-outline-secondary">
+                        <a href="/login/" class="text-decoration-none text-reset">Cerrar Sesión</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+
+
+    <!-- Contenedor para las alertas -->
+    <div id="alert" class="alert"></div>
+    
+    <center>
+        <h3 class="mt-5 fw-bold">LISTA DE MOTOS</h3>
+    </center>
+
+    <div class="container mt-5">
+        <div class="row" id="motosList">
+            <!-- Aquí se agregarán las motos -->
+        </div>
+    </div>
+
+    <!-- Modal Agregar -->
+    <div class="modal" id="modalAdd" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agregar Moto</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  onclick="closeModalAdd()"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAdd">
+                    <div class="row">
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Referencia: </label>
+                                <input type="text" class="form-control" name="reference" id="addReference" placeholder="Referencia">
+                              </div>
+                        </div>
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Marca: </label>
+                                <input type="text" class="form-control" name="trademark" id="addTrademark" placeholder="Marca">
+                              </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Modelo: </label>
+                                <input type="text" class="form-control" name="model" id="addModel" placeholder="Modelo">
+                              </div>
+                        </div>
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Imagen: </label>
+                                <input type="text" class="form-control" name="image" id="addImage" placeholder="Imagen (URL)">
+                              </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Proveedor: </label>
+                                <input type="text" class="form-control" name="supplier" id="addSupplier" placeholder="Proveedor">
+                              </div>
+                        </div>
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Precio: </label>
+                                <input type="number" class="form-control" name="price" id="addPrice" placeholder="Precio">
+                              </div>
+                        </div>
+                    </div>
+                </form>
+                <p id="msgFormAdd" class="error"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-success"onclick="createMoto()">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    <!-- Modal Editar -->
+    <div class="modal" id="modalEdit">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Moto</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  onclick="closeModalEdit()"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEdit">
+                    <input type="hidden" id="editID" name="id">
+                    <div class="row">
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Referencia: </label>
+                                <input type="text" class="form-control" name="reference" id="editReference" placeholder="Referencia">
+                              </div>
+                        </div>
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Marca: </label>
+                                <input type="text" class="form-control" name="trademark" id="editTrademark" placeholder="Marca">
+                              </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Modelo: </label>
+                                <input type="text" class="form-control" name="model" id="editModel" placeholder="Modelo">
+                              </div>
+                        </div>
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Imagen: </label>
+                                <input type="text" class="form-control" name="image" id="editImage" placeholder="Imagen (URL)">
+                              </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Proveedor: </label>
+                                <input type="text" class="form-control" name="supplier" id="editSupplier" placeholder="supplier">
+                              </div>
+                        </div>
+                        <div class="col col-lg-6">
+                            <div class="mb-3">
+                                <label  class="form-label">Precio: </label>
+                                <input type="number" class="form-control" name="price" id="editPrice" placeholder="Precio">
+                              </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-info" onclick="updateMoto()">Actualizar</button>
+            </div>
+            <p id="msgFormEdit" class="error"></p>
+          </div>
+        </div>
+      </div>
+      
+
+    <!-- Modal Confirmar -->
+    <div class="modal"  id="modalConfirm">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Confirmar Eliminación</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModalConfirm()"></button>
+            </div>
+            <div class="modal-body">
+              <p>¿Estás seguro de que quieres eliminar esta moto?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="confirmDelete(false)">Cancelar</button>
+              <button type="button" class="btn btn-danger"onclick="confirmDelete(true)">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</body>
+</html>
