@@ -21,8 +21,7 @@
 - CSS : `static/css/style.css`
 
 ### URL
-<p>Contiene la configuración de las URLs de la aplicación web en `urls.py`, ideales para reconocer las vistas que deben manejar las solicitudes.
-</p>
+<p>Contiene la configuración de las URLs de la aplicación web en `urls.py`, ideales para reconocer las vistas que deben manejar las solicitudes.</p>
 
 ### Models
 <p>En el archivo `models.py` se crea la estructura de la tabla en la base de datos, en donde se definen los campos, en este caso, de las motocicletas.
@@ -33,7 +32,7 @@
 </p>
 
 ### Views
-<p>En  `views.py` encontramos las clases/funciones que permiten manejar las operaciones CRUD para el modelo, usando el serializer.</p>
+<p>En `views.py` encontramos las clases/funciones que permiten manejar las operaciones CRUD para el modelo, usando el serializer.</p>
 
 ## Ejecución del proyecto
 >Ejecuta en tu terminal o linea de comandos:                   
@@ -60,7 +59,7 @@ cd venv\Scripts>activate
 pip install django
 
 ```
-### 5. Instalar las dependendencias
+### 5. Instalar las dependencias
    
 ```bash
 pip install -r requirements.txt
